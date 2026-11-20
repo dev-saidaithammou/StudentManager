@@ -11,13 +11,19 @@ pipeline {
 
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing StudentManager code'
+                script {
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQubeServer') {
+                        bat "\"${scannerHome}\\bin\\sonar-scanner.bat\""
+                    }
+                }
             }
         }
 
         stage('Quality Gate') {
             steps {
-                echo 'Checking code quality'
+                echo 'Quality Gate will be configured next'
             }
         }
 
